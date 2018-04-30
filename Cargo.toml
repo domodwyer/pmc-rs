@@ -1,0 +1,23 @@
+[package]
+name = "pmc-rs"
+version = "0.1.0"
+authors = ["Dom Dwyer <dom@itsallbroken.com>"]
+
+license = "BSD-3-Clause"
+readme = "README.md"
+keywords = ["pmc", "freebsd"]
+repository = "https://github.com/domodwyer/pmc-rs"
+homepage = "https://github.com/domodwyer/pmc-rs"
+documentation = "https://itsallbroken.com/code/docs/pmc-rs/pmc/index.html"
+description = """
+A safe abstraction for interacting with Performance Monitor Counters on FreeBSD.
+"""
+categories = ["api-bindings"]
+
+[lib]
+name = "pmc"
+
+[dependencies]
+pmc-sys = "0.1"
+libc = "0.2"
+lazy_static = "1.0.0"
