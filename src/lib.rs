@@ -6,7 +6,7 @@
 //! PMCs are part of the CPU hardware and are typically used to profile CPU
 //! micro-architecture events such as L1/L2/etc cache hit ratio, instructions
 //! processed per CPU tick, TLB lookups, branch mispredictions, etc for a
-//! particular application or algorithm. Using PMCs an algorithm can be turned
+//! particular application or algorithm. Using PMCs an algorithm can be tuned
 //! for performance by minimising CPU stalls, optimising CPU cache usage, etc.
 //!
 //! The events are defined by the CPU manufacturer (here is the [Intel 64 and
