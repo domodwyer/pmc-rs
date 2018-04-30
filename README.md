@@ -1,4 +1,4 @@
-![crates.io](https://img.shields.io/crates/v/pmc-rs.svg)
+[![crates.io](https://img.shields.io/crates/v/pmc-rs.svg)](https://crates.io/crates/pmc-rs)
 
 `pmc-rs` provides a safe abstraction for interacting with Performance
 Monitor Counters on [FreeBSD].
