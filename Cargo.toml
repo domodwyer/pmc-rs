@@ -20,4 +20,4 @@ name = "pmc"
 [dependencies]
 pmc-sys = "0.1"
 libc = "0.2"
-lazy_static = "1.0.0"
+lazy_static = "1.4.0"
