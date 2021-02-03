@@ -8,11 +8,15 @@ readme = "README.md"
 keywords = ["pmc", "freebsd"]
 repository = "https://github.com/domodwyer/pmc-rs"
 homepage = "https://github.com/domodwyer/pmc-rs"
-documentation = "https://itsallbroken.com/code/docs/pmc-rs/pmc/index.html"
 description = """
 A safe abstraction for interacting with Performance Monitor Counters on FreeBSD.
 """
 categories = ["api-bindings"]
+
+[package.metadata.docs.rs]
+targets = [
+  "x86_64-unknown-freebsd",
+]
 
 [lib]
 name = "pmc"
