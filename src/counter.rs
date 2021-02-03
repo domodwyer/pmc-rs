@@ -7,15 +7,15 @@ use signal;
 
 use std::io;
 use std::ffi::CString;
-use std::sync::{Mutex, Once, ONCE_INIT};
+use std::sync::{Mutex, Once};
 use pmc_sys::{pmc_mode_PMC_MODE_SC, pmc_mode_PMC_MODE_TC};
 use pmc_sys::{pmc_allocate, pmc_attach, pmc_id_t, pmc_mode, pmc_read, pmc_release, pmc_rw,
               pmc_start, pmc_stop};
 
-static SIGNAL_WATCH: Once = ONCE_INIT;
+static SIGNAL_WATCH: Once = Once::new();
 
 lazy_static! {
-	static ref ALLOCATE_LOCK: Mutex<i32> = { Mutex::new(42) };
+	static ref ALLOCATE_LOCK: Mutex<i32> = Mutex::new(42);
 }
 
 #[derive(Debug)]

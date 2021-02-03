@@ -2,12 +2,11 @@
 
 use std::{error, fmt, io};
 use std::borrow::Borrow;
-use std::error::Error as StdError;
 
 #[derive(Debug)]
 pub struct Error {
 	kind: ErrorKind,
-	cause: Option<Box<error::Error>>,
+	cause: Option<Box<dyn error::Error>>,
 }
 
 #[derive(Debug, PartialEq)]
@@ -113,7 +112,7 @@ impl error::Error for Error {
 		}
 	}
 
-	fn cause(&self) -> Option<&error::Error> {
+	fn cause(&self) -> Option<&dyn error::Error> {
 		match self.cause {
 			None => None,
 			Some(ref b) => Some(b.borrow()),
@@ -123,7 +122,7 @@ impl error::Error for Error {
 
 impl fmt::Display for Error {
 	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(f, "{}", self.description())
+		write!(f, "{}", self)
 	}
 }
 

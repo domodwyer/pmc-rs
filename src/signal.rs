@@ -3,9 +3,9 @@
 extern crate libc;
 
 use error::{new_error, Error, ErrorKind};
-use std::sync::atomic::{AtomicUsize, Ordering, ATOMIC_USIZE_INIT};
+use std::sync::atomic::{AtomicUsize, Ordering};
 
-static LAST_SIG: AtomicUsize = ATOMIC_USIZE_INIT;
+static LAST_SIG: AtomicUsize = AtomicUsize::new(0);
 
 extern "C" {
 	fn signal(sig: libc::c_int, cb: extern "C" fn(libc::c_int));
