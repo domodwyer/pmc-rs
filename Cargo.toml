@@ -1,6 +1,6 @@
 [package]
 name = "pmc-rs"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Dom Dwyer <dom@itsallbroken.com>"]
 
 license = "BSD-3-Clause"
@@ -22,6 +22,6 @@ targets = [
 name = "pmc"
 
 [dependencies]
-pmc-sys = "0.1"
+pmc-sys = "0.1.1"
 libc = "0.2"
 lazy_static = "1.0.0"
