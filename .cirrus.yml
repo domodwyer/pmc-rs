@@ -3,12 +3,13 @@ task:
     - name: FreeBSD 11
       freebsd_instance:
         image: freebsd-11-4-release-amd64
-    - name: FreeBSD 12
-      freebsd_instance:
-        image: freebsd-12-2-release-amd64
-    - name: FreeBSD 13
-      freebsd_instance:
-        image: freebsd-13-0-alpha3-amd64
+    # - name: FreeBSD 12
+    #   freebsd_instance:
+    #     image: freebsd-12-2-release-amd64
+    # - name: FreeBSD 13
+    #   freebsd_instance:
+    #     image: freebsd-13-0-alpha3-amd64
+
   setup_script:
     - pkg install -y curl llvm90
     - kldload pmc
@@ -16,6 +17,15 @@ task:
     - sh rustup.sh -y --profile=minimal
     - . $HOME/.cargo/env
     - rustup default stable
+    
+    # Print the state of the CPU PMCs and supported events to help with
+    # debugging.
+    #
+    # NOTE: Cirrus seems to use Google Cloud which DOES NOT support PMCs -
+    # attempting to use them returns EINVAL
+    - pmccontrol -s
+    - pmccontrol -L
+
   test_script:
     - . $HOME/.cargo/env
     - cargo test
