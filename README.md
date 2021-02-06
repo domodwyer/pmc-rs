@@ -1,5 +1,4 @@
 [![crates.io](https://img.shields.io/crates/v/pmc-rs.svg)](https://crates.io/crates/pmc-rs)
-[![docs.rs](https://docs.rs/pmc-rs/badge.svg)](https://docs.rs/pmc-rs)
 
 `pmc-rs` provides a safe abstraction for interacting with Performance
 Monitor Counters on [FreeBSD].
@@ -19,6 +18,10 @@ Encodings for Pre-Defined Architectural Performance Events"`).
 
 `pmc-rs` makes use of the [`libpmc`] userland interace to the [`hwpmc`] kernel
 module on [FreeBSD].
+
+The documentation can be found
+[here](https://itsallbroken.com/code/docs/pmc-rs/pmc/index.html) as `docs.rs`
+doesn't build FreeBSD only packages.
 
 [FreeBSD]: https://www.freebsd.org/
 [`hwpmc`]: https://www.freebsd.org/cgi/man.cgi?query=hwpmc
