@@ -1,7 +1,8 @@
 [package]
 name = "pmc-rs"
-version = "0.1.1"
+version = "0.2.0"
 authors = ["Dom Dwyer <dom@itsallbroken.com>"]
+edition = "2018"
 
 license = "BSD-3-Clause"
 readme = "README.md"
@@ -22,6 +23,9 @@ targets = [
 name = "pmc"
 
 [dependencies]
-pmc-sys = "0.1.1"
 libc = "0.2"
-lazy_static = "1.0.0"
+lazy_static = "1.4.0"
+
+[target.'cfg(target_os = "freebsd")'.dependencies]
+# pmc-sys = "0.1.1"
+pmc-sys = { path = "../pmc-sys/" }
