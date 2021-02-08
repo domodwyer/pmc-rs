@@ -1,28 +1,30 @@
-extern crate pmc;
-
-use pmc::error::*;
+use pmc::*;
 
 #[test]
 fn test_process_counter() {
-    let mut counter = pmc::Counter::new("PAGE_FAULT.ALL", &pmc::Scope::Process, pmc::CPU_ANY)
-        .expect("failed to create counter");
+    let mut counter = CounterConfig::default()
+        .attach_to(vec![0])
+        .allocate("PAGE_FAULT.ALL")
+        .expect("failed to allocate PMC");
 
     read_counter(&mut counter);
 }
 
 #[test]
-#[ignore]
 fn test_system_counter() {
-    let mut counter =
-        pmc::Counter::new("cycles", &pmc::Scope::System, 0).expect("failed to create counter");
+    let mut counter = CounterConfig::default()
+        .allocate("PAGE_FAULT.ALL")
+        .expect("failed to allocate PMC");
 
     read_counter(&mut counter);
 }
 
 #[test]
 fn test_set_counter() {
-    let mut counter = pmc::Counter::new("LOCK.FAILED", &pmc::Scope::Process, pmc::CPU_ANY)
-        .expect("failed to create counter");
+    let mut counter = CounterConfig::default()
+        .attach_to(vec![0])
+        .allocate("PAGE_FAULT.ALL")
+        .expect("failed to allocate PMC");
 
     counter.set(42).expect("failed to set counter");
     assert_eq!(counter.read().unwrap(), 42);
@@ -31,41 +33,30 @@ fn test_set_counter() {
 
 #[test]
 fn test_counter_bad_name() {
-    assert_eq!(
-        pmc::Counter::new("wat", &pmc::Scope::Process, pmc::CPU_ANY)
-            .unwrap_err()
-            .kind(),
-        &ErrorKind::AllocInit
-    );
+    let err = CounterConfig::default()
+        .attach_to(vec![0])
+        .allocate("PAGE_FAULT.ALL")
+        .expect_err("expeced to fail allocating PMC");
+
+    assert_eq!(err.kind(), &ErrorKind::AllocInit);
 }
 
 #[test]
 fn test_null_in_counter_name() {
-    assert_eq!(
-        pmc::Counter::new("instru\0ctions", &pmc::Scope::Process, pmc::CPU_ANY)
-            .unwrap_err()
-            .kind(),
-        &ErrorKind::InvalidEventSpec
-    );
-}
+    let err = CounterConfig::default()
+        .attach_to(vec![0])
+        .allocate("instru\0ctions")
+        .expect_err("expeced to fail allocating PMC");
 
-#[test]
-fn test_attach_to_pid() {
-    let mut counter = pmc::Counter::new("instructions", &pmc::Scope::Process, pmc::CPU_ANY)
-        .expect("failed to create counter");
-
-    // pmc_attach treats 0 as "attach to self"
-    counter.attach(0).expect("failed to attach to self");
-
-    read_counter(&mut counter);
+    assert_eq!(err.kind(), &ErrorKind::InvalidEventSpec);
 }
 
 fn read_counter(c: &mut pmc::Counter) {
-    c.start().expect("failed to start counter");
+    let handle = c.start().expect("failed to start counter");
 
     let mut last: u64 = 0;
     for _ in 1..100 {
-        let now = c.read().expect("unable to read counter");
+        let now = handle.read().expect("unable to read counter");
         if now < last {
             panic!("counter decremented")
         }
