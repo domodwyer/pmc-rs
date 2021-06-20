@@ -22,29 +22,32 @@
 //! [`FreeBSD`]: https://www.freebsd.org/
 //! [`hwpmc`]: https://www.freebsd.org/cgi/man.cgi?query=hwpmc
 //! [`libpmc`]: https://www.freebsd.org/cgi/man.cgi?query=pmc
-//!
 
 #[macro_use]
 extern crate lazy_static;
 extern crate libc;
-extern crate pmc_sys;
 
 mod signal;
-pub mod error;
 
-mod scope;
-pub use self::scope::Scope;
+mod error;
+pub use error::*;
 
 mod counter;
-pub use self::counter::Counter;
+pub use counter::*;
 
-use pmc_sys::PMC_CPU_ANY;
+#[cfg(not(target_os = "freebsd"))]
+mod stubs;
+
+#[cfg(not(target_os = "freebsd"))]
+const _CPU_ANY: i32 = -1;
+#[cfg(target_os = "freebsd")]
+const _CPU_ANY: i32 = pmc_sys::PMC_CPU_ANY;
 
 /// `Counter` instances allocated with `CPU_ANY` will measure events across all
 /// CPUs.
 ///
 /// `CPU_ANY` is a convenience value for readability and should be preferred
 /// over using `0` directly.
-pub const CPU_ANY: i32 = PMC_CPU_ANY;
+pub const CPU_ANY: i32 = _CPU_ANY;
 
 // TODO: add sampler type that records to a log file
