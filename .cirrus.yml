@@ -1,14 +1,14 @@
 task:
   matrix:
-    - name: FreeBSD 11
-      freebsd_instance:
-        image: freebsd-11-4-release-amd64
+    # - name: FreeBSD 11
+    #   freebsd_instance:
+    #     image: freebsd-11-4-release-amd64
     # - name: FreeBSD 12
     #   freebsd_instance:
     #     image: freebsd-12-2-release-amd64
-    # - name: FreeBSD 13
-    #   freebsd_instance:
-    #     image: freebsd-13-0-alpha3-amd64
+    - name: FreeBSD 13
+      freebsd_instance:
+        image: freebsd-13-0-release-amd64
 
   setup_script:
     - pkg install -y curl llvm90
