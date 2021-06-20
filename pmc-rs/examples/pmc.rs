@@ -4,7 +4,7 @@ use std::time::Duration;
 use pmc::*;
 
 fn main() {
-    let mut counter = CounterConfig::default()
+    let mut counter = CounterBuilder::default()
         // PID 0 is a special argument used to attach to the current process.
         //
         // If you don't specify a PID, a system-wide counter is allocated.

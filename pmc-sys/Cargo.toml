@@ -1,0 +1,29 @@
+[package]
+name = "pmc-sys"
+version = "0.1.2"
+authors = ["Dom Dwyer <dom@itsallbroken.com>"]
+build = "build.rs"
+
+license = "BSD-3-Clause"
+readme = "README.md"
+keywords = ["pmc", "freebsd"]
+repository = "https://github.com/domodwyer/pmc-sys"
+homepage = "https://github.com/domodwyer/pmc-sys"
+description = """
+Rust bindings to FreeBSD's libpmc.
+"""
+
+links = "pmc"
+categories = ["external-ffi-bindings", "api-bindings", "hardware-support", "os::freebsd-apis"]
+
+[lib]
+name = "pmc_sys"
+
+[package.metadata.docs.rs]
+default-target = "x86_64-unknown-freebsd"
+
+[build-dependencies]
+bindgen = "0.55"
+
+[dependencies]
+libc = "0.2"

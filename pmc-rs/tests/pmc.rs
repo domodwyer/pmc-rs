@@ -2,7 +2,7 @@ use pmc::*;
 
 #[test]
 fn test_process_counter() {
-    let mut counter = CounterConfig::default()
+    let mut counter = CounterBuilder::default()
         .attach_to(vec![0])
         .allocate("inst_retired.any")
         .expect("failed to allocate PMC");
@@ -12,7 +12,7 @@ fn test_process_counter() {
 
 #[test]
 fn test_system_counter() {
-    let mut counter = CounterConfig::default()
+    let mut counter = CounterBuilder::default()
         .allocate("inst_retired.any")
         .expect("failed to allocate PMC");
 
@@ -21,7 +21,7 @@ fn test_system_counter() {
 
 #[test]
 fn test_set_counter() {
-    let mut counter = CounterConfig::default()
+    let mut counter = CounterBuilder::default()
         .attach_to(vec![0])
         .allocate("inst_retired.any")
         .expect("failed to allocate PMC");
@@ -33,7 +33,7 @@ fn test_set_counter() {
 
 #[test]
 fn test_counter_bad_name() {
-    let err = CounterConfig::default()
+    let err = CounterBuilder::default()
         .attach_to(vec![0])
         .allocate("inst_retired.any")
         .expect_err("expected to fail allocating PMC");
@@ -43,7 +43,7 @@ fn test_counter_bad_name() {
 
 #[test]
 fn test_null_in_counter_name() {
-    let err = CounterConfig::default()
+    let err = CounterBuilder::default()
         .attach_to(vec![0])
         .allocate("instru\0ctions")
         .expect_err("expected to fail allocating PMC");

@@ -1,31 +1,6 @@
-[package]
-name = "pmc-rs"
-version = "0.2.0"
-authors = ["Dom Dwyer <dom@itsallbroken.com>"]
-edition = "2018"
+[workspace]
 
-license = "BSD-3-Clause"
-readme = "README.md"
-keywords = ["pmc", "freebsd"]
-repository = "https://github.com/domodwyer/pmc-rs"
-homepage = "https://github.com/domodwyer/pmc-rs"
-description = """
-A safe abstraction for interacting with Performance Monitor Counters on FreeBSD.
-"""
-categories = ["api-bindings"]
-
-[package.metadata.docs.rs]
-targets = [
-  "x86_64-unknown-freebsd",
+members = [
+    "pmc-rs",
+    "pmc-sys",
 ]
-
-[lib]
-name = "pmc"
-
-[dependencies]
-libc = "0.2"
-lazy_static = "1.4.0"
-
-[target.'cfg(target_os = "freebsd")'.dependencies]
-# pmc-sys = "0.1.1"
-pmc-sys = { path = "../pmc-sys/" }

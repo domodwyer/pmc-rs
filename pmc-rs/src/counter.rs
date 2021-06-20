@@ -39,12 +39,12 @@ lazy_static! {
 /// # Ok::<(), Error>(())
 /// ```
 #[derive(Debug, Default, Clone)]
-pub struct CounterConfig {
+pub struct CounterBuilder {
     cpu: Option<i32>,
     pids: Option<Vec<i32>>,
 }
 
-impl CounterConfig {
+impl CounterBuilder {
     /// Specify the CPU number that the PMC is to be allocated on.
     ///
     /// Defaults to all CPUs ([`CPU_ANY`]).
