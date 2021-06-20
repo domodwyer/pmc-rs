@@ -1,12 +1,11 @@
 #![allow(missing_docs)]
 
-use std::borrow::Borrow;
-use std::{error, fmt, io};
+use std::{fmt, io};
 
 #[derive(Debug)]
 pub struct Error {
     kind: ErrorKind,
-    cause: Option<Box<dyn error::Error>>,
+    cause: Option<Box<dyn std::error::Error>>,
 }
 
 #[derive(Debug, PartialEq)]
@@ -72,7 +71,7 @@ pub enum ErrorKind {
     Forbidden,
 }
 
-impl error::Error for Error {
+impl std::error::Error for Error {
     fn description(&self) -> &str {
         match self.kind {
             ErrorKind::Init => "missing hwpmc in kernel",
@@ -85,13 +84,6 @@ impl error::Error for Error {
             ErrorKind::AlreadyAttached => "PMC already attached to target process",
             ErrorKind::Forbidden => "forbidden",
             _ => "unknown error",
-        }
-    }
-
-    fn cause(&self) -> Option<&dyn error::Error> {
-        match self.cause {
-            None => None,
-            Some(ref b) => Some(b.borrow()),
         }
     }
 }
