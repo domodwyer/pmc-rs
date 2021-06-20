@@ -4,7 +4,7 @@ use pmc::*;
 fn test_process_counter() {
     let mut counter = CounterConfig::default()
         .attach_to(vec![0])
-        .allocate("PAGE_FAULT.ALL")
+        .allocate("inst_retired.any")
         .expect("failed to allocate PMC");
 
     read_counter(&mut counter);
@@ -13,7 +13,7 @@ fn test_process_counter() {
 #[test]
 fn test_system_counter() {
     let mut counter = CounterConfig::default()
-        .allocate("PAGE_FAULT.ALL")
+        .allocate("inst_retired.any")
         .expect("failed to allocate PMC");
 
     read_counter(&mut counter);
@@ -23,7 +23,7 @@ fn test_system_counter() {
 fn test_set_counter() {
     let mut counter = CounterConfig::default()
         .attach_to(vec![0])
-        .allocate("PAGE_FAULT.ALL")
+        .allocate("inst_retired.any")
         .expect("failed to allocate PMC");
 
     counter.set(42).expect("failed to set counter");
@@ -35,8 +35,8 @@ fn test_set_counter() {
 fn test_counter_bad_name() {
     let err = CounterConfig::default()
         .attach_to(vec![0])
-        .allocate("PAGE_FAULT.ALL")
-        .expect_err("expeced to fail allocating PMC");
+        .allocate("inst_retired.any")
+        .expect_err("expected to fail allocating PMC");
 
     assert_eq!(err.kind(), &ErrorKind::AllocInit);
 }
@@ -46,7 +46,7 @@ fn test_null_in_counter_name() {
     let err = CounterConfig::default()
         .attach_to(vec![0])
         .allocate("instru\0ctions")
-        .expect_err("expeced to fail allocating PMC");
+        .expect_err("expected to fail allocating PMC");
 
     assert_eq!(err.kind(), &ErrorKind::InvalidEventSpec);
 }
