@@ -10,7 +10,7 @@ fn main() {
     let bindings = bindgen::Builder::default()
         .header("wrapper.h")
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
-        .blacklist_type("^__max_align_t$")
+        .blocklist_type("^__max_align_t$")
         .generate()
         .expect("unable to generate bindings");
 

@@ -23,7 +23,7 @@ name = "pmc_sys"
 default-target = "x86_64-unknown-freebsd"
 
 [build-dependencies]
-bindgen = "0.55"
+bindgen = "0.64"
 
 [dependencies]
 libc = "0.2"
