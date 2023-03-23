@@ -368,9 +368,6 @@ fn init_pmc_once() -> Result<(), Error> {
             };
             return;
         }
-
-        // Register the signal handler
-        signal::watch_for(&[libc::SIGBUS, libc::SIGIO]);
     });
     maybe_err
 }
