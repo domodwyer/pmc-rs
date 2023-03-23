@@ -31,14 +31,14 @@ FreeBSD versions may require pinning `pmc-rs` to an older release.
 | FreeBSD Version | Latest `pmc-rs` Release |
 | :-------------- | ----------------------- |
 | FreeBSD 11      | v0.1.1                  |
-| FreeBSD 12      | *unsupported*           |
+| FreeBSD 12.3+   | v0.2.0                  |
 | FreeBSD 13      | v0.2.0                  |
 
 Versions prior to FreeBSD 11 are untested, but may work.
 
-FreeBSD 12 linked C++ into the libpmc stack causing compatibility issues
-with Rust (see [this issue][freebsd-12-support]). Fortunately this is not the
-case with FreeBSD 13.
+FreeBSD 12.0 linked C++ into the libpmc stack causing compatibility issues
+with Rust (see [this issue][freebsd-12-support]). Fortunately it was fixed in
+FreeBSD 12.3 and 13.0.
 
 ## Future improvements
 
