@@ -35,7 +35,7 @@ fn test_set_counter() {
 fn test_counter_bad_name() {
     let err = CounterBuilder::default()
         .attach_to(vec![0])
-        .allocate("inst_retired.any")
+        .allocate("does.not.exist")
         .expect_err("expected to fail allocating PMC");
 
     assert_eq!(err.kind(), &ErrorKind::AllocInit);
