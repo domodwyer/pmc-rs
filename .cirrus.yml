@@ -11,12 +11,11 @@ task:
         image: freebsd-13-2-release-amd64
 
   setup_script:
-    - pkg install -y curl llvm
+    - pkg install -y llvm
     - kldload pmc
-    - curl https://sh.rustup.rs -sSf --output rustup.sh
-    - sh rustup.sh -y --profile=minimal
+    - fetch https://sh.rustup.rs -o rustup.sh
+    - sh rustup.sh -y --profile=minimal --default-toolchain stable
     - . $HOME/.cargo/env
-    - rustup default stable
     
     # Print the state of the CPU PMCs and supported events to help with
     # debugging.
