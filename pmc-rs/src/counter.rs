@@ -6,7 +6,7 @@ use std::sync::{Mutex, Once};
 use libc::EDOOFUS;
 #[cfg(target_os = "freebsd")]
 use pmc_sys::{
-    pmc_allocate, pmc_attach, pmc_detach, pmc_id_t, pmc_init, pmc_mode_PMC_MODE_SC,
+    pmc_allocate, pmc_attach, pmc_detach, pmc_id_t, pmc_init, pmc_mode_PMC_MODE_SC, pmc_mode_PMC_MODE_SS,
     pmc_mode_PMC_MODE_TC, pmc_read, pmc_release, pmc_rw, pmc_start, pmc_stop,
 };
 
@@ -180,11 +180,19 @@ impl Counter {
     ) -> Result<Self, Error> {
         // If there's any pids, request a process counter, otherwise a
         // system-wide counter.
+        // XXX Needs support for sampling PMCs.
         let pmc_mode = if pids.is_none() {
             pmc_mode_PMC_MODE_SC
         } else {
             pmc_mode_PMC_MODE_TC
         };
+        let cpu = cpu.unwrap_or_else(|| {
+            if pmc_mode == pmc_mode_PMC_MODE_SC || pmc_mode == pmc_mode_PMC_MODE_SS {
+                0
+            } else {
+                CPU_ANY
+            }
+        });
 
         // It appears pmc_allocate isn't thread safe, so take a lock while
         // calling it.
@@ -203,7 +211,7 @@ impl Counter {
                 c_spec.as_ptr(),
                 pmc_mode,
                 0,
-                cpu.unwrap_or(CPU_ANY),
+                cpu,
                 &mut id,
                 0,
             )
