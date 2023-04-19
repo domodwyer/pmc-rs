@@ -8,7 +8,7 @@ task:
     #     image: freebsd-12-2-release-amd64
     - name: FreeBSD 13
       freebsd_instance:
-        image: freebsd-13-0-release-amd64
+        image: freebsd-13-2-release-amd64
 
   setup_script:
     - pkg install -y curl llvm90
