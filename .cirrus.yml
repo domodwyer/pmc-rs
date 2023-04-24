@@ -11,7 +11,7 @@ task:
         image: freebsd-13-0-release-amd64
 
   setup_script:
-    - pkg install -y curl llvm90
+    - pkg install -y curl llvm
     - kldload pmc
     - curl https://sh.rustup.rs -sSf --output rustup.sh
     - sh rustup.sh -y --profile=minimal
