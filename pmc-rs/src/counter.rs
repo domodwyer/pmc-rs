@@ -14,10 +14,7 @@ use pmc_sys::{
 use super::stubs::*;
 
 use crate::CPU_ANY;
-use crate::{
-    error::{new_error, new_os_error, Error, ErrorKind},
-    signal,
-};
+use crate::error::{new_error, new_os_error, Error, ErrorKind};
 
 static PMC_INIT: Once = Once::new();
 
@@ -199,7 +196,6 @@ impl Counter {
         let _guard = BIG_FAT_LOCK.lock().unwrap();
 
         init_pmc_once()?;
-        signal::check()?;
 
         let c_spec =
             CString::new(event_spec.into()).map_err(|_| new_error(ErrorKind::InvalidEventSpec))?;
@@ -260,8 +256,6 @@ impl Counter {
     /// The counter stops when the returned [`Running`] handle is dropped.
     #[must_use = "counter only runs until handle is dropped"]
     pub fn start(&mut self) -> Result<Running<'_>, Error> {
-        signal::check()?;
-
         if unsafe { pmc_start(self.id) } != 0 {
             return match io::Error::raw_os_error(&io::Error::last_os_error()) {
                 Some(EDOOFUS) => Err(new_os_error(ErrorKind::LogFileRequired)),
@@ -291,8 +285,6 @@ impl Counter {
     /// # Ok::<(), Error>(())
     /// ```
     pub fn read(&self) -> Result<u64, Error> {
-        signal::check()?;
-
         let mut value: u64 = 0;
         if unsafe { pmc_read(self.id, &mut value) } != 0 {
             return Err(new_os_error(ErrorKind::Unknown));
@@ -319,8 +311,6 @@ impl Counter {
     /// # Ok::<(), Error>(())
     /// ```
     pub fn set(&mut self, value: u64) -> Result<u64, Error> {
-        signal::check()?;
-
         let mut old: u64 = 0;
         if unsafe { pmc_rw(self.id, value, &mut old) } != 0 {
             let err = io::Error::last_os_error();
