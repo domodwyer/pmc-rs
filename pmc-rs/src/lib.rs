@@ -27,8 +27,6 @@
 extern crate lazy_static;
 extern crate libc;
 
-mod signal;
-
 mod error;
 pub use error::*;
 
