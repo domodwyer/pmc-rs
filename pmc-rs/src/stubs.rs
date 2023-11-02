@@ -5,6 +5,7 @@ pub type pmc_id_t = u32;
 
 pub const pmc_mode_PMC_MODE_SC: u32 = 1;
 pub const pmc_mode_PMC_MODE_TC: u32 = 2;
+pub const pmc_mode_PMC_MODE_SS: u32 = 3;
 
 pub const EDOOFUS: i32 = 88;
 

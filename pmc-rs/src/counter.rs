@@ -6,15 +6,15 @@ use std::sync::{Mutex, Once};
 use libc::EDOOFUS;
 #[cfg(target_os = "freebsd")]
 use pmc_sys::{
-    pmc_allocate, pmc_attach, pmc_detach, pmc_id_t, pmc_init, pmc_mode_PMC_MODE_SC, pmc_mode_PMC_MODE_SS,
-    pmc_mode_PMC_MODE_TC, pmc_read, pmc_release, pmc_rw, pmc_start, pmc_stop,
+    pmc_allocate, pmc_attach, pmc_detach, pmc_id_t, pmc_init, pmc_mode_PMC_MODE_SC,
+    pmc_mode_PMC_MODE_SS, pmc_mode_PMC_MODE_TC, pmc_read, pmc_release, pmc_rw, pmc_start, pmc_stop,
 };
 
 #[cfg(not(target_os = "freebsd"))]
 use super::stubs::*;
 
-use crate::CPU_ANY;
 use crate::error::{new_error, new_os_error, Error, ErrorKind};
+use crate::CPU_ANY;
 
 static PMC_INIT: Once = Once::new();
 
@@ -28,7 +28,9 @@ lazy_static! {
 /// scope, recording events across all CPUs.
 ///
 /// ```no_run
-/// let config = CounterConfig::default().attach_to(vec![0]);
+/// use pmc::*;
+///
+/// let config = CounterBuilder::default().attach_to(vec![0]);
 ///
 /// let instr = config.allocate("inst_retired.any")?;
 /// let l1_hits = config.allocate("mem_load_uops_retired.l1_hit")?;
@@ -105,7 +107,9 @@ impl<'a> Running<'a> {
     /// Read the current counter value.
     ///
     /// ```no_run
-    /// let mut counter = CounterConfig::default()
+    /// use pmc::*;
+    ///
+    /// let mut counter = CounterBuilder::default()
     ///     .attach_to(vec![0])
     ///     .allocate("inst_retired.any")?;
     ///
@@ -148,8 +152,9 @@ impl<'a> Drop for Running<'a> {
 ///
 /// ```no_run
 /// use std::{thread, time::Duration};
+/// use pmc::*;
 ///
-/// let instr = CounterConfig::default()
+/// let mut instr = CounterBuilder::default()
 ///     .attach_to(vec![0])
 ///     .allocate("inst_retired.any")?;
 ///
@@ -202,17 +207,7 @@ impl Counter {
 
         // Allocate the PMC
         let mut id = 0;
-        if unsafe {
-            pmc_allocate(
-                c_spec.as_ptr(),
-                pmc_mode,
-                0,
-                cpu,
-                &mut id,
-                0,
-            )
-        } != 0
-        {
+        if unsafe { pmc_allocate(c_spec.as_ptr(), pmc_mode, 0, cpu, &mut id, 0) } != 0 {
             return match io::Error::raw_os_error(&io::Error::last_os_error()) {
                 Some(libc::EINVAL) => Err(new_os_error(ErrorKind::AllocInit)),
                 _ => Err(new_os_error(ErrorKind::Unknown)),
@@ -272,7 +267,9 @@ impl Counter {
     /// This call is valid for both running, stopped, and unused counters.
     ///
     /// ```no_run
-    /// let mut counter = CounterConfig::default()
+    /// use pmc::*;
+    ///
+    /// let mut counter = CounterBuilder::default()
     ///     .attach_to(vec![0])
     ///     .allocate("inst_retired.any")?;
     ///
@@ -296,7 +293,9 @@ impl Counter {
     /// Set an explicit counter value.
     ///
     /// ```no_run
-    /// let mut counter = CounterConfig::default()
+    /// use pmc::*;
+    ///
+    /// let mut counter = CounterBuilder::default()
     ///     .attach_to(vec![0])
     ///     .allocate("inst_retired.any")?;
     ///
