@@ -1,6 +1,6 @@
 [package]
 name = "pmc-sys"
-version = "0.1.2"
+version = "0.1.3"
 authors = ["Dom Dwyer <dom@itsallbroken.com>"]
 build = "build.rs"
 
@@ -14,7 +14,12 @@ Rust bindings to FreeBSD's libpmc.
 """
 
 links = "pmc"
-categories = ["external-ffi-bindings", "api-bindings", "hardware-support", "os::freebsd-apis"]
+categories = [
+	"external-ffi-bindings",
+	"api-bindings",
+	"hardware-support",
+	"os::freebsd-apis",
+]
 
 [lib]
 name = "pmc_sys"
