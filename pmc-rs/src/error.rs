@@ -105,6 +105,10 @@ impl Error {
     pub fn kind(&self) -> &ErrorKind {
         &self.kind
     }
+
+    pub fn cause(&self) -> Option<&dyn std::error::Error> {
+        self.cause.as_deref()
+    }
 }
 
 pub(crate) fn new_os_error(kind: ErrorKind) -> Error {
